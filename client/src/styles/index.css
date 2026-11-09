@@ -1,0 +1,287 @@
+@import 'bootstrap/dist/css/bootstrap.min.css';
+
+:root {
+  --primary-green: #14532D;
+  --secondary-green: #166534;
+  --light-green: #DCFCE7;
+  --pale-green: #F0FDF4;
+  --bg-color: #F8FAF5;
+  --white: #FFFFFF;
+  --accent-gold: #EAB308;
+  --gold-hover: #CA8A04;
+  --text-dark: #1F2937;
+  --text-muted: #64748B;
+  --border-color: #E2E8F0;
+  --font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.04);
+  --shadow-xl: 0 20px 25px -5px rgba(20, 83, 45, 0.12), 0 8px 10px -6px rgba(20, 83, 45, 0.08);
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-xl: 24px;
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--bg-color);
+  color: var(--text-dark);
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-family);
+  font-weight: 700;
+  color: var(--primary-green);
+  letter-spacing: -0.02em;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #F1F5F9;
+}
+::-webkit-scrollbar-thumb {
+  background: #94A3B8;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--secondary-green);
+}
+
+/* Links */
+a {
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.2s ease-in-out;
+}
+
+/* Custom Buttons */
+.btn-primary-green {
+  background-color: var(--primary-green);
+  color: var(--white);
+  border: 1px solid var(--primary-green);
+  font-weight: 600;
+  padding: 0.6rem 1.4rem;
+  border-radius: var(--radius-md);
+  transition: all 0.25s ease;
+}
+.btn-primary-green:hover, .btn-primary-green:focus {
+  background-color: var(--secondary-green);
+  border-color: var(--secondary-green);
+  color: var(--white);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(20, 83, 45, 0.25);
+}
+
+.btn-accent-gold {
+  background-color: var(--accent-gold);
+  color: #713F12;
+  border: 1px solid var(--accent-gold);
+  font-weight: 700;
+  padding: 0.6rem 1.4rem;
+  border-radius: var(--radius-md);
+  transition: all 0.25s ease;
+}
+.btn-accent-gold:hover, .btn-accent-gold:focus {
+  background-color: var(--gold-hover);
+  border-color: var(--gold-hover);
+  color: #FFFFFF;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(234, 179, 8, 0.35);
+}
+
+.btn-outline-green {
+  background-color: transparent;
+  color: var(--primary-green);
+  border: 2px solid var(--primary-green);
+  font-weight: 600;
+  padding: 0.55rem 1.35rem;
+  border-radius: var(--radius-md);
+  transition: all 0.25s ease;
+}
+.btn-outline-green:hover, .btn-outline-green:focus {
+  background-color: var(--primary-green);
+  color: var(--white);
+  transform: translateY(-2px);
+}
+
+/* Cards */
+.marutham-card {
+  background: var(--white);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+}
+.marutham-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-xl);
+  border-color: rgba(22, 101, 52, 0.25);
+}
+
+/* Category Pill Card */
+.category-card {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-color);
+  padding: 1.5rem 1rem;
+  text-align: center;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.category-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: transparent;
+  transition: all 0.3s ease;
+}
+.category-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--secondary-green);
+}
+.category-card:hover::after {
+  background: var(--accent-gold);
+}
+
+/* Badges */
+.badge-light-green {
+  background-color: var(--light-green);
+  color: var(--primary-green);
+  font-weight: 600;
+  padding: 0.35rem 0.75rem;
+  border-radius: 20px;
+}
+.badge-gold {
+  background-color: #FEF08A;
+  color: #854D0E;
+  font-weight: 700;
+  padding: 0.35rem 0.75rem;
+  border-radius: 20px;
+}
+.badge-organic {
+  background-color: #DCFCE7;
+  color: #15803D;
+  border: 1px solid #86EFAC;
+  font-weight: 700;
+  padding: 0.25rem 0.6rem;
+  border-radius: 12px;
+}
+
+/* Hero Section */
+.hero-wrapper {
+  background: linear-gradient(135deg, rgba(20, 83, 45, 0.94) 0%, rgba(22, 101, 52, 0.88) 100%),
+    url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
+  color: #FFFFFF;
+  padding: 5rem 0 6rem 0;
+  position: relative;
+}
+
+/* Navbar */
+.marutham-navbar {
+  background: rgba(255, 255, 255, 0.97);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(22, 101, 52, 0.1);
+  padding: 0.75rem 0;
+  position: sticky;
+  top: 0;
+  z-index: 1030;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+}
+.nav-link-custom {
+  font-weight: 600;
+  color: #334155 !important;
+  padding: 0.5rem 0.9rem !important;
+  border-radius: var(--radius-sm);
+  transition: all 0.2s ease;
+  font-size: 0.95rem;
+}
+.nav-link-custom:hover, .nav-link-custom.active {
+  color: var(--primary-green) !important;
+  background-color: var(--light-green);
+}
+
+/* Image Zoom */
+.card-img-zoom {
+  transition: transform 0.5s ease;
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+.marutham-card:hover .card-img-zoom {
+  transform: scale(1.05);
+}
+
+/* Leaflet container */
+.leaflet-container {
+  width: 100%;
+  height: 350px;
+  border-radius: var(--radius-md);
+  z-index: 10;
+}
+
+/* AI Scanner Preview Box */
+.ai-scanner-box {
+  border: 2px dashed #86EFAC;
+  background: #F0FDF4;
+  border-radius: var(--radius-lg);
+  padding: 2.5rem 1.5rem;
+  text-align: center;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+.ai-scanner-box:hover {
+  border-color: var(--secondary-green);
+  background: #DCFCE7;
+}
+
+/* Price Tag */
+.price-tag {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--primary-green);
+}
+
+/* Section Header */
+.section-badge {
+  display: inline-block;
+  background-color: var(--light-green);
+  color: var(--secondary-green);
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.35rem 1rem;
+  border-radius: 30px;
+  margin-bottom: 0.75rem;
+}
+
+.section-title {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: var(--primary-green);
+  margin-bottom: 0.5rem;
+}
+
+.section-subtitle {
+  color: var(--text-muted);
+  font-size: 1.05rem;
+  max-width: 650px;
+  margin: 0 auto 2.5rem auto;
+}
+
