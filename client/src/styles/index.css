@@ -216,6 +216,50 @@ a {
   background-color: var(--light-green);
 }
 
+/* Hamburger Menu Button & Drawer */
+.hamburger-btn {
+  background-color: var(--pale-green);
+  color: var(--primary-green);
+  border: 1px solid rgba(22, 101, 52, 0.15);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.hamburger-btn:hover, .hamburger-btn:focus {
+  background-color: var(--light-green);
+  color: var(--secondary-green);
+  transform: scale(1.05);
+}
+
+.marutham-offcanvas {
+  width: 310px !important;
+  border-right: 1px solid rgba(22, 101, 52, 0.12);
+  background-color: #FFFFFF;
+}
+.offcanvas-nav-link {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  color: #334155;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  font-size: 0.98rem;
+  margin-bottom: 0.35rem;
+}
+.offcanvas-nav-link:hover {
+  background-color: var(--light-green);
+  color: var(--primary-green);
+  transform: translateX(4px);
+}
+.offcanvas-nav-link.active {
+  background-color: var(--primary-green);
+  color: var(--white) !important;
+}
+.offcanvas-nav-link.active svg {
+  color: var(--accent-gold) !important;
+}
+
 /* Image Zoom */
 .card-img-zoom {
   transition: transform 0.5s ease;

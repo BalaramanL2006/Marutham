@@ -1,11 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
-import { Navbar, Nav, Container, NavDropdown, Badge } from 'react-bootstrap';
+import { Navbar, Nav, Container, NavDropdown, Badge, Offcanvas } from 'react-bootstrap';
 import {
   FaLeaf,
   FaShoppingCart,
-  FaUserCircle,
-  FaPlusCircle,
   FaGlobeAmericas,
   FaCloudSun,
   FaRobot,
@@ -15,9 +13,10 @@ import {
   FaMapMarkedAlt,
   FaSignOutAlt,
   FaUserShield,
-  FaThLarge
+  FaThLarge,
+  FaBars
 } from 'react-icons/fa';
-import { GiCow, GiCarrot } from 'react-icons/gi';
+import { GiCow, GiCarrot, GiFertilizerBag } from 'react-icons/gi';
 import { useAuth } from '../../context/AuthContext.jsx';
 import { useLanguage } from '../../context/LanguageContext.jsx';
 import { useCart } from '../../context/CartContext.jsx';
@@ -28,82 +27,59 @@ const AppNavbar = () => {
   const { cartCount } = useCart();
   const navigate = useNavigate();
 
+  const [showMenu, setShowMenu] = useState(false);
+
   const handleLogout = () => {
     logout();
     navigate('/');
   };
 
+  const handleCloseMenu = () => setShowMenu(false);
+
   return (
-    <Navbar expand="lg" className="marutham-navbar">
-      <Container fluid className="px-lg-4">
-        {/* Brand */}
-        <Navbar.Brand as={Link} to="/" className="d-flex align-items-center me-3">
-          <div
-            className="d-flex align-items-center justify-content-center me-2 shadow-sm rounded-circle"
-            style={{ width: '42px', height: '42px', backgroundColor: 'var(--primary-green)', color: '#FFFFFF' }}
-          >
-            <FaLeaf size={22} className="text-warning" />
-          </div>
-          <div>
-            <div className="fw-bolder fs-4 lh-1" style={{ color: 'var(--primary-green)', letterSpacing: '0.04em' }}>
-              {t.brand}
-            </div>
-            <small className="text-muted text-uppercase" style={{ fontSize: '0.65rem', letterSpacing: '0.08em' }}>
-              {language === 'ta' ? 'வேளாண் சூழலமைப்பு' : 'Agri Ecosystem'}
-            </small>
-          </div>
-        </Navbar.Brand>
+    <>
+      <Navbar className="marutham-navbar">
+        <Container fluid className="px-lg-4">
+          {/* Left section: Hamburger Icon + Logo + Home */}
+          <div className="d-flex align-items-center gap-2 gap-sm-3">
+            {/* Hamburger Menu Button (Three-Line Icon) */}
+            <button
+              type="button"
+              onClick={() => setShowMenu(true)}
+              className="btn hamburger-btn p-2 d-flex align-items-center justify-content-center rounded-circle shadow-sm"
+              aria-label="Open Navigation Categories"
+              title={language === 'ta' ? 'பிரிவுகள் மெனு' : 'Categories Menu'}
+              style={{ width: '40px', height: '40px' }}
+            >
+              <FaBars size={19} />
+            </button>
 
-        <Navbar.Toggle aria-controls="marutham-nav-collapse" className="border-0 shadow-none" />
+            {/* Brand Logo and Name */}
+            <Navbar.Brand as={Link} to="/" className="d-flex align-items-center me-0">
+              <div
+                className="d-flex align-items-center justify-content-center me-2 shadow-sm rounded-circle"
+                style={{ width: '42px', height: '42px', backgroundColor: 'var(--primary-green)', color: '#FFFFFF' }}
+              >
+                <FaLeaf size={22} className="text-warning" />
+              </div>
+              <div>
+                <div className="fw-bolder fs-4 lh-1" style={{ color: 'var(--primary-green)', letterSpacing: '0.04em' }}>
+                  {t.brand}
+                </div>
+                <small className="text-muted text-uppercase" style={{ fontSize: '0.65rem', letterSpacing: '0.08em' }}>
+                  {language === 'ta' ? 'வேளாண் சூழலமைப்பு' : 'Agri Ecosystem'}
+                </small>
+              </div>
+            </Navbar.Brand>
 
-        <Navbar.Collapse id="marutham-nav-collapse">
-          {/* Main Navigation links */}
-          <Nav className="mx-auto my-2 my-lg-0 align-items-lg-center">
-            <Nav.Link as={NavLink} to="/" className="nav-link-custom">
+            {/* Home Button */}
+            <Nav.Link as={NavLink} to="/" className="nav-link-custom ms-1 ms-md-2">
               {t.nav.home}
             </Nav.Link>
+          </div>
 
-            <Nav.Link as={NavLink} to="/marketplace" className="nav-link-custom d-flex align-items-center">
-              <GiCarrot className="me-1 text-success" /> {t.nav.marketplace}
-            </Nav.Link>
-
-            <Nav.Link as={NavLink} to="/livestock" className="nav-link-custom d-flex align-items-center">
-              <GiCow className="me-1 text-secondary" /> {t.nav.livestock}
-            </Nav.Link>
-
-            <Nav.Link as={NavLink} to="/rentals" className="nav-link-custom d-flex align-items-center">
-              <FaTractor className="me-1 text-primary" /> {t.nav.rentals}
-            </Nav.Link>
-
-            <Nav.Link as={NavLink} to="/lands" className="nav-link-custom d-flex align-items-center">
-              <FaMapMarkedAlt className="me-1 text-success" /> {t.nav.lands}
-            </Nav.Link>
-
-            <Nav.Link as={NavLink} to="/ai-doctor" className="nav-link-custom d-flex align-items-center">
-              <FaRobot className="me-1 text-warning" />
-              <span>{t.nav.aiDoctor}</span>
-              <span className="badge bg-danger ms-1" style={{ fontSize: '0.6rem' }}>AI</span>
-            </Nav.Link>
-
-            <Nav.Link as={NavLink} to="/fertilizers" className="nav-link-custom">
-              {language === 'ta' ? 'உரங்கள்' : 'Fertilizers'}
-            </Nav.Link>
-
-            <Nav.Link as={NavLink} to="/knowledge" className="nav-link-custom d-flex align-items-center">
-              <FaBookOpen className="me-1 text-muted" /> {t.nav.knowledge}
-            </Nav.Link>
-
-            <Nav.Link as={NavLink} to="/community" className="nav-link-custom d-flex align-items-center">
-              <FaUsers className="me-1 text-info" /> {t.nav.community}
-            </Nav.Link>
-
-            <Nav.Link as={NavLink} to="/weather" className="nav-link-custom d-flex align-items-center">
-              <FaCloudSun className="me-1 text-warning" /> {t.nav.weather}
-            </Nav.Link>
-          </Nav>
-
-          {/* Right Action Controls */}
-          <div className="d-flex align-items-center gap-2 mt-3 mt-lg-0">
+          {/* Right Action Controls: Language, Cart, Login, Register */}
+          <div className="d-flex align-items-center gap-2">
             {/* Language Switcher */}
             <button
               onClick={toggleLanguage}
@@ -117,7 +93,7 @@ const AppNavbar = () => {
             {/* Shopping Cart */}
             <Link
               to="/cart"
-              className="btn btn-light position-relative p-2 rounded-circle border shadow-sm text-dark me-1"
+              className="btn btn-light position-relative p-2 rounded-circle border shadow-sm text-dark"
               title="Shopping Cart"
             >
               <FaShoppingCart size={17} />
@@ -179,18 +155,133 @@ const AppNavbar = () => {
                 </Link>
               </div>
             )}
-
-            {/* List Your Product CTA */}
-            <Link to="/create-listing" className="btn btn-accent-gold btn-sm d-flex align-items-center py-2 px-3 shadow-sm ms-1">
-              <FaPlusCircle className="me-1" />
-              <span>{t.listYourProduct}</span>
-            </Link>
           </div>
-        </Navbar.Collapse>
-      </Container>
-    </Navbar>
+        </Container>
+      </Navbar>
+
+      {/* Hamburger Navigation Drawer (Smooth Offcanvas) */}
+      <Offcanvas
+        show={showMenu}
+        onHide={handleCloseMenu}
+        placement="start"
+        className="marutham-offcanvas shadow-lg"
+      >
+        <Offcanvas.Header closeButton className="border-bottom pb-3">
+          <Offcanvas.Title className="d-flex align-items-center">
+            <div
+              className="d-flex align-items-center justify-content-center me-2 rounded-circle"
+              style={{ width: '36px', height: '36px', backgroundColor: 'var(--primary-green)', color: '#FFFFFF' }}
+            >
+              <FaLeaf size={18} className="text-warning" />
+            </div>
+            <div>
+              <div className="fw-bold fs-5 lh-1" style={{ color: 'var(--primary-green)' }}>
+                {t.brand}
+              </div>
+              <small className="text-muted" style={{ fontSize: '0.72rem' }}>
+                {language === 'ta' ? 'விவசாயப் பிரிவுகள்' : 'Agricultural Categories'}
+              </small>
+            </div>
+          </Offcanvas.Title>
+        </Offcanvas.Header>
+
+        <Offcanvas.Body className="p-3">
+          <Nav className="flex-column">
+            {/* 1. Marketplace */}
+            <NavLink
+              to="/marketplace"
+              className={({ isActive }) => `offcanvas-nav-link ${isActive ? 'active' : ''}`}
+              onClick={handleCloseMenu}
+            >
+              <GiCarrot className="me-3 text-success fs-5 flex-shrink-0" />
+              <span>{t.nav.marketplace}</span>
+            </NavLink>
+
+            {/* 2. Livestock */}
+            <NavLink
+              to="/livestock"
+              className={({ isActive }) => `offcanvas-nav-link ${isActive ? 'active' : ''}`}
+              onClick={handleCloseMenu}
+            >
+              <GiCow className="me-3 text-secondary fs-5 flex-shrink-0" />
+              <span>{t.nav.livestock}</span>
+            </NavLink>
+
+            {/* 3. Rentals */}
+            <NavLink
+              to="/rentals"
+              className={({ isActive }) => `offcanvas-nav-link ${isActive ? 'active' : ''}`}
+              onClick={handleCloseMenu}
+            >
+              <FaTractor className="me-3 text-primary fs-5 flex-shrink-0" />
+              <span>{t.nav.rentals}</span>
+            </NavLink>
+
+            {/* 4. Lands */}
+            <NavLink
+              to="/lands"
+              className={({ isActive }) => `offcanvas-nav-link ${isActive ? 'active' : ''}`}
+              onClick={handleCloseMenu}
+            >
+              <FaMapMarkedAlt className="me-3 text-success fs-5 flex-shrink-0" />
+              <span>{t.nav.lands}</span>
+            </NavLink>
+
+            {/* 5. AI Disease Finder */}
+            <NavLink
+              to="/ai-doctor"
+              className={({ isActive }) => `offcanvas-nav-link ${isActive ? 'active' : ''}`}
+              onClick={handleCloseMenu}
+            >
+              <FaRobot className="me-3 text-warning fs-5 flex-shrink-0" />
+              <span className="flex-grow-1">{t.nav.aiDoctor}</span>
+              <span className="badge bg-danger ms-2" style={{ fontSize: '0.62rem' }}>AI</span>
+            </NavLink>
+
+            {/* 6. Fertilizers */}
+            <NavLink
+              to="/fertilizers"
+              className={({ isActive }) => `offcanvas-nav-link ${isActive ? 'active' : ''}`}
+              onClick={handleCloseMenu}
+            >
+              <GiFertilizerBag className="me-3 text-warning fs-5 flex-shrink-0" />
+              <span>{language === 'ta' ? 'உரங்கள்' : 'Fertilizers'}</span>
+            </NavLink>
+
+            {/* 7. Agri Guide */}
+            <NavLink
+              to="/knowledge"
+              className={({ isActive }) => `offcanvas-nav-link ${isActive ? 'active' : ''}`}
+              onClick={handleCloseMenu}
+            >
+              <FaBookOpen className="me-3 text-muted fs-5 flex-shrink-0" />
+              <span>{t.nav.knowledge}</span>
+            </NavLink>
+
+            {/* 8. Community */}
+            <NavLink
+              to="/community"
+              className={({ isActive }) => `offcanvas-nav-link ${isActive ? 'active' : ''}`}
+              onClick={handleCloseMenu}
+            >
+              <FaUsers className="me-3 text-info fs-5 flex-shrink-0" />
+              <span>{t.nav.community}</span>
+            </NavLink>
+
+            {/* 9. Weather & Mandi */}
+            <NavLink
+              to="/weather"
+              className={({ isActive }) => `offcanvas-nav-link ${isActive ? 'active' : ''}`}
+              onClick={handleCloseMenu}
+            >
+              <FaCloudSun className="me-3 text-warning fs-5 flex-shrink-0" />
+              <span>{t.nav.weather}</span>
+            </NavLink>
+          </Nav>
+        </Offcanvas.Body>
+      </Offcanvas>
+    </>
   );
 };
 
 export default AppNavbar;
-
