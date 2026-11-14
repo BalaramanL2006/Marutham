@@ -25,6 +25,7 @@ import LivestockCard from '../components/marketplace/LivestockCard.jsx';
 import RentalCard from '../components/marketplace/RentalCard.jsx';
 import LandCard from '../components/marketplace/LandCard.jsx';
 import LoadingSpinner from '../components/common/LoadingSpinner.jsx';
+import heroBgImage from '../assets/Golden Hour Village Farmland Panorama.png';
 
 const Home = () => {
   const { language, t } = useLanguage();
@@ -132,7 +133,15 @@ const Home = () => {
   return (
     <div className="home-page">
       {/* 1. Hero Section */}
-      <section className="hero-wrapper text-center text-md-start">
+      <section
+        className="hero-wrapper text-center text-md-start"
+        style={{
+          backgroundImage: `linear-gradient(135deg, rgba(20, 83, 45, 0.90) 0%, rgba(22, 101, 52, 0.82) 100%), url("${heroBgImage}")`,
+          backgroundPosition: 'center',
+          backgroundSize: 'cover',
+          backgroundRepeat: 'no-repeat'
+        }}
+      >
         <Container>
           <Row className="align-items-center justify-content-between gy-4">
             <Col lg={7}>
@@ -194,8 +203,8 @@ const Home = () => {
             <Col lg={5} className="d-none d-lg-block">
               <div className="position-relative">
                 <img
-                  src="https://images.unsplash.com/photo-1595246140625-573b715d11dc?auto=format&fit=crop&w=800&q=80"
-                  alt="Modern Agriculture"
+                  src={heroBgImage}
+                  alt="Golden Hour Village Farmland Panorama"
                   className="rounded-4 shadow-2xl border border-3 border-white w-100"
                   style={{ height: '420px', objectFit: 'cover' }}
                 />

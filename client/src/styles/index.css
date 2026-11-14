@@ -185,8 +185,8 @@ a {
 
 /* Hero Section */
 .hero-wrapper {
-  background: linear-gradient(135deg, rgba(20, 83, 45, 0.94) 0%, rgba(22, 101, 52, 0.88) 100%),
-    url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
+  background: linear-gradient(135deg, rgba(20, 83, 45, 0.90) 0%, rgba(22, 101, 52, 0.82) 100%),
+    url('../assets/Golden Hour Village Farmland Panorama.png') center/cover no-repeat;
   color: #FFFFFF;
   padding: 5rem 0 6rem 0;
   position: relative;
