@@ -14,7 +14,8 @@ import {
   FaSignOutAlt,
   FaUserShield,
   FaThLarge,
-  FaBars
+  FaBars,
+  FaSearch
 } from 'react-icons/fa';
 import { GiCow, GiCarrot, GiFertilizerBag } from 'react-icons/gi';
 import { useAuth } from '../../context/AuthContext.jsx';
@@ -28,6 +29,7 @@ const AppNavbar = () => {
   const navigate = useNavigate();
 
   const [showMenu, setShowMenu] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const handleLogout = () => {
     logout();
@@ -36,134 +38,197 @@ const AppNavbar = () => {
 
   const handleCloseMenu = () => setShowMenu(false);
 
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      navigate(`/marketplace?search=${encodeURIComponent(searchQuery.trim())}`);
+    }
+  };
+
   return (
     <>
-      <Navbar className="marutham-navbar">
-        <Container fluid className="px-lg-4">
-          {/* Left section: Hamburger Icon + Logo + Home */}
-          <div className="d-flex align-items-center gap-2 gap-sm-3">
-            {/* Hamburger Menu Button (Three-Line Icon) */}
-            <button
-              type="button"
-              onClick={() => setShowMenu(true)}
-              className="btn hamburger-btn p-2 d-flex align-items-center justify-content-center rounded-circle shadow-sm"
-              aria-label="Open Navigation Categories"
-              title={language === 'ta' ? 'பிரிவுகள் மெனு' : 'Categories Menu'}
-              style={{ width: '40px', height: '40px' }}
-            >
-              <FaBars size={19} />
-            </button>
-
-            {/* Brand Logo and Name */}
-            <Navbar.Brand as={Link} to="/" className="d-flex align-items-center me-0">
-              <div
-                className="d-flex align-items-center justify-content-center me-2 shadow-sm rounded-circle"
-                style={{ width: '42px', height: '42px', backgroundColor: 'var(--primary-green)', color: '#FFFFFF' }}
-              >
-                <FaLeaf size={22} className="text-warning" />
-              </div>
-              <div>
-                <div className="fw-bolder fs-4 lh-1" style={{ color: 'var(--primary-green)', letterSpacing: '0.04em' }}>
-                  {t.brand}
+      <Navbar className="marutham-navbar py-2">
+        <Container fluid className="px-2 px-lg-4">
+          <div className="d-flex align-items-center justify-content-between w-100 gap-2">
+            {/* LEFT: MARUTHAM Logo → Home */}
+            <div className="d-flex align-items-center flex-shrink-0">
+              {/* Brand Logo and Name */}
+              <Navbar.Brand as={Link} to="/" className="d-flex align-items-center me-1 me-md-2">
+                <div
+                  className="d-flex align-items-center justify-content-center me-2 shadow-sm rounded-circle"
+                  style={{ width: '40px', height: '40px', backgroundColor: 'var(--primary-green)', color: '#FFFFFF' }}
+                >
+                  <FaLeaf size={20} className="text-warning" />
                 </div>
-                <small className="text-muted text-uppercase" style={{ fontSize: '0.65rem', letterSpacing: '0.08em' }}>
-                  {language === 'ta' ? 'வேளாண் சூழலமைப்பு' : 'Agri Ecosystem'}
-                </small>
-              </div>
-            </Navbar.Brand>
+                <div>
+                  <div className="fw-bolder fs-4 lh-1" style={{ color: 'var(--primary-green)', letterSpacing: '0.04em' }}>
+                    {t.brand}
+                  </div>
+                  <small className="text-muted text-uppercase d-none d-sm-block" style={{ fontSize: '0.62rem', letterSpacing: '0.08em' }}>
+                    {language === 'ta' ? 'வேளாண் சூழலமைப்பு' : 'Agri Ecosystem'}
+                  </small>
+                </div>
+              </Navbar.Brand>
 
-            {/* Home Button */}
-            <Nav.Link as={NavLink} to="/" className="nav-link-custom ms-1 ms-md-2">
-              {t.nav.home}
-            </Nav.Link>
+              {/* Home Button */}
+              <Nav.Link as={NavLink} to="/" className="nav-link-custom ms-1 ms-md-2">
+                {t.nav.home}
+              </Nav.Link>
+            </div>
+
+            {/* CENTER: Search Bar (Desktop & Tablet) */}
+            <form
+              onSubmit={handleSearchSubmit}
+              className="navbar-search-form flex-grow-1 mx-2 mx-lg-4 d-none d-md-block"
+              style={{ maxWidth: '480px' }}
+            >
+              <div className="input-group navbar-search-group">
+                <span className="input-group-text navbar-search-icon">
+                  <FaSearch className="text-muted" size={14} />
+                </span>
+                <input
+                  type="search"
+                  className="form-control navbar-search-input"
+                  placeholder={language === 'ta' ? 'பொருட்கள், கால்நடைகள், சேவைகளைத் தேடுங்கள்...' : 'Search products, livestock, services...'}
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  aria-label="Search products, livestock, services"
+                />
+                <button
+                  type="submit"
+                  className="btn navbar-search-btn"
+                  title="Search"
+                >
+                  <FaSearch size={13} className="me-1 d-none d-lg-inline" />
+                  <span>{language === 'ta' ? 'தேடு' : 'Search'}</span>
+                </button>
+              </div>
+            </form>
+
+            {/* RIGHT: Tamil Language Selector → Cart → Login → Register → Hamburger Menu (☰) */}
+            <div className="d-flex align-items-center gap-2 flex-shrink-0">
+              {/* 1. Tamil Language Selector */}
+              <button
+                onClick={toggleLanguage}
+                className="btn btn-sm btn-outline-success d-flex align-items-center py-1 px-2 rounded-pill fw-semibold"
+                title="Change Language / மொழியை மாற்றவும்"
+              >
+                <FaGlobeAmericas className="me-1" />
+                {language === 'en' ? 'தமிழ்' : 'English'}
+              </button>
+
+              {/* 2. Cart Icon */}
+              <Link
+                to="/cart"
+                className="btn btn-light position-relative p-2 rounded-circle border shadow-sm text-dark"
+                title="Shopping Cart"
+              >
+                <FaShoppingCart size={16} />
+                {cartCount > 0 && (
+                  <Badge
+                    pill
+                    bg="danger"
+                    className="position-absolute top-0 start-100 translate-middle"
+                    style={{ fontSize: '0.65rem' }}
+                  >
+                    {cartCount}
+                  </Badge>
+                )}
+              </Link>
+
+              {/* 3. Login & Register (or User Profile if logged in) */}
+              {isAuthenticated ? (
+                <NavDropdown
+                  align="end"
+                  title={
+                    <span className="d-inline-flex align-items-center fw-semibold text-dark">
+                      <img
+                        src={user?.avatar || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=100&q=80'}
+                        alt={user?.name}
+                        className="rounded-circle me-1 border border-success"
+                        style={{ width: '28px', height: '28px', objectFit: 'cover' }}
+                      />
+                      <span className="d-none d-xl-inline" style={{ maxWidth: '90px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                        {user?.name?.split(' ')[0]}
+                      </span>
+                    </span>
+                  }
+                  id="user-dropdown"
+                >
+                  <div className="px-3 py-2 border-bottom">
+                    <div className="fw-bold text-truncate">{user?.name}</div>
+                    <small className="text-muted d-block text-capitalize">Role: {user?.role}</small>
+                  </div>
+                  <NavDropdown.Item as={Link} to="/dashboard">
+                    <FaThLarge className="me-2 text-primary" /> {t.nav.dashboard}
+                  </NavDropdown.Item>
+                  {isAdmin && (
+                    <NavDropdown.Item as={Link} to="/admin" className="text-danger fw-semibold">
+                      <FaUserShield className="me-2" /> {t.nav.admin} Dashboard
+                    </NavDropdown.Item>
+                  )}
+                  <NavDropdown.Divider />
+                  <NavDropdown.Item onClick={handleLogout} className="text-danger">
+                    <FaSignOutAlt className="me-2" /> {t.nav.logout}
+                  </NavDropdown.Item>
+                </NavDropdown>
+              ) : (
+                <div className="d-flex align-items-center gap-1">
+                  <Link to="/login" className="btn btn-sm btn-outline-green py-1 px-2 px-sm-3">
+                    {t.nav.login}
+                  </Link>
+                  <Link to="/register" className="btn btn-sm btn-primary-green py-1 px-2 px-sm-3">
+                    {t.nav.register}
+                  </Link>
+                </div>
+              )}
+
+              {/* 4. Hamburger Menu (☰) at Extreme Right End */}
+              <button
+                type="button"
+                onClick={() => setShowMenu(true)}
+                className="btn hamburger-btn-circle"
+                aria-label="Open Navigation Categories"
+                title={language === 'ta' ? 'பிரிவுகள் மெனு' : 'Categories Menu'}
+              >
+                <FaBars size={18} />
+              </button>
+            </div>
           </div>
 
-          {/* Right Action Controls: Language, Cart, Login, Register */}
-          <div className="d-flex align-items-center gap-2">
-            {/* Language Switcher */}
-            <button
-              onClick={toggleLanguage}
-              className="btn btn-sm btn-outline-success d-flex align-items-center py-1 px-2 rounded-pill fw-semibold"
-              title="Change Language / மொழியை மாற்றவும்"
-            >
-              <FaGlobeAmericas className="me-1" />
-              {language === 'en' ? 'தமிழ்' : 'English'}
-            </button>
-
-            {/* Shopping Cart */}
-            <Link
-              to="/cart"
-              className="btn btn-light position-relative p-2 rounded-circle border shadow-sm text-dark"
-              title="Shopping Cart"
-            >
-              <FaShoppingCart size={17} />
-              {cartCount > 0 && (
-                <Badge
-                  pill
-                  bg="danger"
-                  className="position-absolute top-0 start-100 translate-middle"
-                  style={{ fontSize: '0.65rem' }}
+          {/* Mobile Search Bar (visible only below md) */}
+          <div className="d-block d-md-none w-100 pt-2 pb-1">
+            <form onSubmit={handleSearchSubmit} className="navbar-search-form w-100">
+              <div className="input-group navbar-search-group">
+                <span className="input-group-text navbar-search-icon">
+                  <FaSearch className="text-muted" size={13} />
+                </span>
+                <input
+                  type="search"
+                  className="form-control navbar-search-input py-1"
+                  placeholder={language === 'ta' ? 'பொருட்கள், சேவைகள் தேடுங்கள்...' : 'Search products, services...'}
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  aria-label="Search"
+                />
+                <button
+                  type="submit"
+                  className="btn navbar-search-btn py-1 px-3"
+                  title="Search"
                 >
-                  {cartCount}
-                </Badge>
-              )}
-            </Link>
-
-            {/* User Profile / Auth State */}
-            {isAuthenticated ? (
-              <NavDropdown
-                align="end"
-                title={
-                  <span className="d-inline-flex align-items-center fw-semibold text-dark">
-                    <img
-                      src={user?.avatar || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=100&q=80'}
-                      alt={user?.name}
-                      className="rounded-circle me-1 border border-success"
-                      style={{ width: '28px', height: '28px', objectFit: 'cover' }}
-                    />
-                    <span className="d-none d-sm-inline" style={{ maxWidth: '100px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                      {user?.name?.split(' ')[0]}
-                    </span>
-                  </span>
-                }
-                id="user-dropdown"
-              >
-                <div className="px-3 py-2 border-bottom">
-                  <div className="fw-bold text-truncate">{user?.name}</div>
-                  <small className="text-muted d-block text-capitalize">Role: {user?.role}</small>
-                </div>
-                <NavDropdown.Item as={Link} to="/dashboard">
-                  <FaThLarge className="me-2 text-primary" /> {t.nav.dashboard}
-                </NavDropdown.Item>
-                {isAdmin && (
-                  <NavDropdown.Item as={Link} to="/admin" className="text-danger fw-semibold">
-                    <FaUserShield className="me-2" /> {t.nav.admin} Dashboard
-                  </NavDropdown.Item>
-                )}
-                <NavDropdown.Divider />
-                <NavDropdown.Item onClick={handleLogout} className="text-danger">
-                  <FaSignOutAlt className="me-2" /> {t.nav.logout}
-                </NavDropdown.Item>
-              </NavDropdown>
-            ) : (
-              <div className="d-flex align-items-center gap-1">
-                <Link to="/login" className="btn btn-sm btn-outline-green py-1 px-3">
-                  {t.nav.login}
-                </Link>
-                <Link to="/register" className="btn btn-sm btn-primary-green py-1 px-3">
-                  {t.nav.register}
-                </Link>
+                  <FaSearch size={13} />
+                </button>
               </div>
-            )}
+            </form>
           </div>
         </Container>
       </Navbar>
 
-      {/* Hamburger Navigation Drawer (Smooth Offcanvas) */}
+      {/* Hamburger Navigation Drawer (Smooth Offcanvas from End/Right) */}
       <Offcanvas
         show={showMenu}
         onHide={handleCloseMenu}
-        placement="start"
+        placement="end"
         className="marutham-offcanvas shadow-lg"
       >
         <Offcanvas.Header closeButton className="border-bottom pb-3">
